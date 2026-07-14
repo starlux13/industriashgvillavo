@@ -6,7 +6,7 @@ import { FloatingActions } from "@/components/FloatingActions";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Moteles Villavicencio · Elige tu experiencia" },
+      { title: "Industrias HG" },
       { name: "description", content: "Punto G, Loma Verde y Palo Alto Glamping. Tres refugios exclusivos en Villavicencio para vivir momentos inolvidables." },
     ],
   }),
