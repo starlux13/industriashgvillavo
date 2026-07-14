@@ -15,7 +15,7 @@ export function FloatingActions({ whatsapp }: { whatsapp?: string }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const toggleLang = () => i18n.changeLanguage(i18n.language.startsWith("es") ? "en" : "es");
+  const toggleLang = () => i18n.changeLanguage((i18n.language || "es").startsWith("es") ? "en" : "es");
   const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark");
 
   const btn =

@@ -22,7 +22,7 @@ const FEATURE_ICONS: Record<string, { icon: React.ElementType; labelEs: string; 
 
 export function RoomsSection({ tenant, onBook }: { tenant: Tenant; onBook: (roomType: string) => void }) {
   const { t, i18n } = useTranslation();
-  const lang = (i18n.language.startsWith("en") ? "en" : "es") as "es" | "en";
+  const lang = ((i18n.language || "es").startsWith("en") ? "en" : "es") as "es" | "en";
   const rooms = ROOMS_BY_TENANT[tenant.slug];
   const [guests, setGuests] = useState<string>("any");
   const [type, setType] = useState<RoomType | "all">("all");

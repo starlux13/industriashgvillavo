@@ -11,7 +11,7 @@ export function TenantHero({ tenant }: { tenant: Tenant }) {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], [0, 250]);
   const opacity = useTransform(scrollYProgress, [0, 0.85], [1, 0]);
-  const lang = (i18n.language.startsWith("en") ? "en" : "es") as "es" | "en";
+  const lang = ((i18n.language || "es").startsWith("en") ? "en" : "es") as "es" | "en";
 
   return (
     <section ref={ref} className="relative isolate h-screen w-full overflow-hidden">

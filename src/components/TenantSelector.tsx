@@ -9,7 +9,7 @@ export function TenantSelector() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [activeIdx, setActiveIdx] = useState<number | null>(null);
-  const lang = (i18n.language.startsWith("en") ? "en" : "es") as "es" | "en";
+  const lang = ((i18n.language || "es").startsWith("en") ? "en" : "es") as "es" | "en";
 
   const handleClick = (idx: number, slug: string) => {
     if (activeIdx === idx) {
