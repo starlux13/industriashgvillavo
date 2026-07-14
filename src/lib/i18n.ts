@@ -255,7 +255,7 @@ if (!i18n.isInitialized) {
     lng: "es",
     fallbackLng: "es",
     supportedLngs: ["es", "en"],
-    initImmediate: false,
+    react: { useSuspense: false },
     interpolation: { escapeValue: false },
     detection: {
       order: ["localStorage", "navigator"],
