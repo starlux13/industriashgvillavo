@@ -28,14 +28,14 @@ export function ReviewsSection({ tenant }: { tenant: Tenant }) {
 
   useEffect(() => {
     supabase
-      .from("reviews")
-      .select("id, display_name, location, rating, comment")
+      .from("reviews_public" as never)
+      .select("id, display_name, rating, comment")
       .eq("tenant_slug", tenant.slug)
-      .eq("approved", true)
       .order("created_at", { ascending: false })
       .limit(12)
       .then(({ data }) => {
-        if (data && data.length > 0) setReviews(data as Review[]);
+        if (data && (data as unknown as Review[]).length > 0)
+          setReviews((data as unknown as Review[]).map((r) => ({ ...r, location: null })));
       });
   }, [tenant.slug]);
 
