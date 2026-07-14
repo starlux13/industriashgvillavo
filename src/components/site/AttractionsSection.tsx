@@ -43,7 +43,7 @@ const ATTRACTIONS = [
 
 export function AttractionsSection() {
   const { t, i18n } = useTranslation();
-  const lang = i18n.language.startsWith("en") ? "en" : "es";
+  const lang = (i18n.language || "es").startsWith("en") ? "en" : "es";
 
   return (
     <section id="attractions" className="relative bg-muted/30 py-24">
