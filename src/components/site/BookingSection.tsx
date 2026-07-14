@@ -59,34 +59,33 @@ export function BookingSection({
       toast.error(parsed.error.issues[0]?.message ?? "Datos inválidos");
       return;
     }
-    // Persist request (anon insert allowed by RLS)
-    await supabase.from("reservations").insert({
-      tenant_slug: tenant.slug,
-      guest_alias: alias,
-      check_in: form.checkIn,
-      check_out: form.checkOut,
-      guests: form.guests,
-      room_type: form.roomType || "Habitación",
-      decoration: form.decoration === "none" ? null : form.decoration,
-      contact_phone: form.phone,
-      notes: form.name ? `Nombre: ${form.name}` : null,
-    });
+
+    // Persist to DB only if authenticated (RLS requires it). Public users still get WhatsApp.
+    const { data: userData } = await supabase.auth.getUser();
+    if (userData.user) {
+      const { error } = await supabase.from("reservations").insert({
+        user_id: userData.user.id,
+        tenant_slug: tenant.slug,
+        guest_alias: alias,
+        check_in: form.checkIn,
+        check_out: form.checkOut,
+        guests: form.guests,
+        room_type: form.roomType || "Habitación",
+        decoration: form.decoration === "none" ? null : form.decoration,
+        contact_phone: form.phone,
+        notes: form.name ? `Nombre: ${form.name}` : null,
+      });
+      if (error) console.warn("reservation insert skipped:", error.message);
+    }
 
     const msg = encodeURIComponent(
-      `Hola ${tenant.name}! Quiero hacer una reserva:
-` +
-        `• Alias: ${alias}
-` +
-        `• Check-in: ${form.checkIn}
-` +
-        `• Check-out: ${form.checkOut}
-` +
-        `• Huéspedes: ${form.guests}
-` +
-        `• Habitación: ${form.roomType}
-` +
-        `• Decoración: ${form.decoration}
-` +
+      `Hola ${tenant.name}! Quiero hacer una reserva:\n` +
+        `• Alias: ${alias}\n` +
+        `• Check-in: ${form.checkIn}\n` +
+        `• Check-out: ${form.checkOut}\n` +
+        `• Huéspedes: ${form.guests}\n` +
+        `• Habitación: ${form.roomType}\n` +
+        `• Decoración: ${form.decoration}\n` +
         `• Teléfono: ${form.phone}`,
     );
     window.open(`https://wa.me/${tenant.whatsapp}?text=${msg}`, "_blank");
