@@ -246,19 +246,23 @@ const resources = {
 };
 
 if (!i18n.isInitialized) {
-  i18n
-    .use(LanguageDetector)
-    .use(initReactI18next)
-    .init({
-      resources,
-      fallbackLng: "es",
-      supportedLngs: ["es", "en"],
-      interpolation: { escapeValue: false },
-      detection: {
-        order: ["localStorage", "navigator"],
-        caches: ["localStorage"],
-      },
-    });
+  const isBrowser = typeof window !== "undefined";
+  const chain = isBrowser
+    ? i18n.use(LanguageDetector).use(initReactI18next)
+    : i18n.use(initReactI18next);
+  chain.init({
+    resources,
+    lng: "es",
+    fallbackLng: "es",
+    supportedLngs: ["es", "en"],
+    initImmediate: false,
+    interpolation: { escapeValue: false },
+    detection: {
+      order: ["localStorage", "navigator"],
+      caches: ["localStorage"],
+    },
+  });
 }
+if (!i18n.language) i18n.language = "es";
 
 export default i18n;
