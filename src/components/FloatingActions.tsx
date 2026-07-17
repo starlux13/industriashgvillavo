@@ -1,13 +1,14 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
 import { useTranslation } from "react-i18next";
-import { ArrowUp, MessageCircle, Moon, Sun, Languages } from "lucide-react";
+import { ArrowUp, MessageCircle, Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export function FloatingActions({ whatsapp }: { whatsapp?: string }) {
   const { theme, setTheme } = useTheme();
   const { i18n, t } = useTranslation();
   const [showTop, setShowTop] = useState(false);
+  const currentLang = (i18n.language || "es").startsWith("en") ? "en" : "es";
 
   useEffect(() => {
     const onScroll = () => setShowTop(window.scrollY > 400);
@@ -15,7 +16,11 @@ export function FloatingActions({ whatsapp }: { whatsapp?: string }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const toggleLang = () => i18n.changeLanguage((i18n.language || "es").startsWith("es") ? "en" : "es");
+  const toggleLang = () => {
+    const next = currentLang === "es" ? "en" : "es";
+    i18n.changeLanguage(next);
+    if (typeof window !== "undefined") window.localStorage.setItem("i18nextLng", next);
+  };
   const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark");
 
   const btn =
@@ -38,8 +43,13 @@ export function FloatingActions({ whatsapp }: { whatsapp?: string }) {
           </motion.button>
         )}
       </AnimatePresence>
-      <button aria-label={t("floating.lang")} onClick={toggleLang} className={btn}>
-        <Languages className="h-5 w-5" />
+      <button
+        aria-label={t("floating.lang")}
+        title={t("floating.lang")}
+        onClick={toggleLang}
+        className={`${btn} text-xs font-bold tracking-wider`}
+      >
+        {currentLang === "es" ? "EN" : "ES"}
       </button>
       <button aria-label={t("floating.theme")} onClick={toggleTheme} className={btn}>
         {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
