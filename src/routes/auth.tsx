@@ -13,6 +13,9 @@ import { useTranslation } from "react-i18next";
 import { ArrowLeft } from "lucide-react";
 
 export const Route = createFileRoute("/auth")({
+  validateSearch: (s: Record<string, unknown>) => ({
+    next: typeof s.next === "string" && s.next.startsWith("/") && !s.next.startsWith("//") ? s.next : "",
+  }),
   head: () => ({
     meta: [
       { title: "Iniciar sesión · Moteles Villavicencio" },
@@ -29,6 +32,8 @@ const passwordSchema = z.string().min(8).max(72);
 function Auth() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { next } = Route.useSearch();
+  const dest = next || "/dashboard";
   const [loading, setLoading] = useState(false);
   const [signIn, setSignIn] = useState({ email: "", password: "" });
   const [signUp, setSignUp] = useState({ email: "", password: "", name: "", phone: "" });
@@ -42,7 +47,7 @@ function Auth() {
     const { error } = await supabase.auth.signInWithPassword(signIn);
     setLoading(false);
     if (error) toast.error(error.message);
-    else { toast.success("¡Bienvenido!"); navigate({ to: "/dashboard" }); }
+    else { toast.success("¡Bienvenido!"); navigate({ to: dest }); }
   };
 
   const handleSignUp = async (e: React.FormEvent) => {
@@ -55,7 +60,7 @@ function Auth() {
       email: signUp.email,
       password: signUp.password,
       options: {
-        emailRedirectTo: `${window.location.origin}/dashboard`,
+        emailRedirectTo: `${window.location.origin}${dest}`,
         data: { full_name: signUp.name, phone: signUp.phone },
       },
     });
@@ -67,7 +72,7 @@ function Auth() {
   const handleGoogle = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: `${window.location.origin}/dashboard` },
+      options: { redirectTo: `${window.location.origin}${dest}` },
     });
     if (error) toast.error(error.message);
   };
