@@ -13,6 +13,9 @@ import { useTranslation } from "react-i18next";
 import { ArrowLeft } from "lucide-react";
 
 export const Route = createFileRoute("/auth")({
+  validateSearch: (s: Record<string, unknown>) => ({
+    next: typeof s.next === "string" && s.next.startsWith("/") && !s.next.startsWith("//") ? s.next : "",
+  }),
   head: () => ({
     meta: [
       { title: "Iniciar sesión · Moteles Villavicencio" },
@@ -29,6 +32,8 @@ const passwordSchema = z.string().min(8).max(72);
 function Auth() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { next } = Route.useSearch();
+  const dest = next || "/dashboard";
   const [loading, setLoading] = useState(false);
   const [signIn, setSignIn] = useState({ email: "", password: "" });
   const [signUp, setSignUp] = useState({ email: "", password: "", name: "", phone: "" });
