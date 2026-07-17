@@ -1,0 +1,113 @@
+{
+  "version": 1,
+  "sdk_version": "0.23.0",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://ehqltlkbtuyrfgdkgnuz.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "moteles-villavicencio-mcp",
+      "version": "0.1.0",
+      "title": "Moteles Villavicencio"
+    },
+    "tools": [
+      {
+        "name": "list_tenants",
+        "title": "List motels",
+        "description": "List the motels (tenants) available on this site with their slug, name and location.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_my_reservations",
+        "title": "List my reservations",
+        "description": "List the signed-in user's reservations across all motels.",
+        "annotations": {
+          "readOnlyHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "create_reservation",
+        "title": "Create reservation",
+        "description": "Create a reservation for the signed-in user at one of the motels.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "tenant_slug": {
+              "type": "string",
+              "enum": [
+                "punto-g",
+                "loma-verde",
+                "palo-alto"
+              ],
+              "description": "Motel slug (see list_tenants)."
+            },
+            "room_type": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 60,
+              "description": "Room / suite type."
+            },
+            "check_in": {
+              "type": "string",
+              "description": "ISO date (YYYY-MM-DD)."
+            },
+            "check_out": {
+              "type": "string",
+              "description": "ISO date (YYYY-MM-DD)."
+            },
+            "guests": {
+              "default": 2,
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10
+            },
+            "contact_phone": {
+              "type": "string",
+              "minLength": 6,
+              "maxLength": 20
+            },
+            "notes": {
+              "type": "string",
+              "maxLength": 500
+            }
+          },
+          "required": [
+            "tenant_slug",
+            "room_type",
+            "check_in",
+            "check_out"
+          ]
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
