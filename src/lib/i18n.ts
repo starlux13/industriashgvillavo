@@ -305,12 +305,14 @@ const resources = {
 
 if (!i18n.isInitialized) {
   const isBrowser = typeof window !== "undefined";
+  const stored = isBrowser ? window.localStorage.getItem("i18nextLng") : null;
+  const initialLng = stored && ["es", "en"].includes(stored) ? stored : "es";
   const chain = isBrowser
     ? i18n.use(LanguageDetector).use(initReactI18next)
     : i18n.use(initReactI18next);
   chain.init({
     resources,
-    lng: "es",
+    lng: initialLng,
     fallbackLng: "es",
     supportedLngs: ["es", "en"],
     react: { useSuspense: false },
@@ -318,6 +320,7 @@ if (!i18n.isInitialized) {
     detection: {
       order: ["localStorage", "navigator"],
       caches: ["localStorage"],
+      lookupLocalStorage: "i18nextLng",
     },
   });
 }
