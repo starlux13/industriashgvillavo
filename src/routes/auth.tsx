@@ -47,7 +47,7 @@ function Auth() {
     const { error } = await supabase.auth.signInWithPassword(signIn);
     setLoading(false);
     if (error) toast.error(error.message);
-    else { toast.success("¡Bienvenido!"); navigate({ to: "/dashboard" }); }
+    else { toast.success("¡Bienvenido!"); navigate({ to: dest }); }
   };
 
   const handleSignUp = async (e: React.FormEvent) => {
@@ -60,7 +60,7 @@ function Auth() {
       email: signUp.email,
       password: signUp.password,
       options: {
-        emailRedirectTo: `${window.location.origin}/dashboard`,
+        emailRedirectTo: `${window.location.origin}${dest}`,
         data: { full_name: signUp.name, phone: signUp.phone },
       },
     });
@@ -72,7 +72,7 @@ function Auth() {
   const handleGoogle = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: `${window.location.origin}/dashboard` },
+      options: { redirectTo: `${window.location.origin}${dest}` },
     });
     if (error) toast.error(error.message);
   };
