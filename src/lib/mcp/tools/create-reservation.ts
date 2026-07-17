@@ -1,8 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
 import { defineTool, type ToolContext } from "@lovable.dev/mcp-js";
 import { z } from "zod";
-import { generateGuestAlias } from "@/lib/booking-names";
-import { TENANTS } from "@/lib/tenants";
+import { generateAlias } from "@/lib/booking-names";
+import { TENANT_LIST } from "@/lib/tenants";
 
 function sb(ctx: ToolContext) {
   return createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_PUBLISHABLE_KEY!, {
@@ -11,7 +11,7 @@ function sb(ctx: ToolContext) {
   });
 }
 
-const tenantSlugs = TENANTS.map((t) => t.slug) as [string, ...string[]];
+const tenantSlugs = TENANT_LIST.map((t) => t.slug) as [string, ...string[]];
 
 export default defineTool({
   name: "create_reservation",
@@ -40,7 +40,7 @@ export default defineTool({
         guests: input.guests ?? 2,
         contact_phone: input.contact_phone ?? null,
         notes: input.notes ?? null,
-        guest_alias: generateGuestAlias(),
+        guest_alias: generateAlias(),
         status: "pending",
       })
       .select()
