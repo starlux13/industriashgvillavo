@@ -38,7 +38,7 @@ export function LandingHero() {
           transition={{ delay: 0.4, duration: 0.9 }}
           className="mb-4 text-xs uppercase tracking-[0.4em] text-[color:var(--gold)]"
         >
-          Villavicencio · Colombia
+          {t("landing.eyebrow")}
         </motion.p>
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
@@ -46,7 +46,7 @@ export function LandingHero() {
           transition={{ delay: 0.6, duration: 1 }}
           className="mb-6 max-w-4xl font-display text-5xl leading-[1.05] sm:text-7xl md:text-8xl"
         >
-          Momentos que <span className="gold-text italic">merecen</span> vivirse
+          {t("landing.titleA")} <span className="gold-text italic">{t("landing.titleAccent")}</span> {t("landing.titleB")}
         </motion.h1>
         <motion.p
           initial={{ opacity: 0 }}
@@ -54,7 +54,7 @@ export function LandingHero() {
           transition={{ delay: 0.9, duration: 0.9 }}
           className="mb-10 max-w-xl text-base text-white/85 sm:text-lg"
         >
-          Tres refugios exclusivos entre montañas. Un solo lugar para elegir el tuyo.
+          {t("landing.subtitle")}
         </motion.p>
         <motion.div
           initial={{ opacity: 0, y: 20 }}

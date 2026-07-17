@@ -12,7 +12,7 @@ export function TenantFooter({ tenant }: { tenant: Tenant }) {
           <p className="text-sm text-muted-foreground">{tenant.name}</p>
         </div>
         <div>
-          <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider">Explora</h4>
+          <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider">{t("footer.explore")}</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
             <li><a href="#rooms">{t("nav.rooms")}</a></li>
             <li><a href="#services">{t("nav.services")}</a></li>
@@ -21,15 +21,15 @@ export function TenantFooter({ tenant }: { tenant: Tenant }) {
           </ul>
         </div>
         <div>
-          <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider">Legal</h4>
+          <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider">{t("footer.legal")}</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
-            <li><a href="#">Política de privacidad</a></li>
-            <li><a href="#">Términos y condiciones</a></li>
+            <li><a href="#">{t("footer.privacy")}</a></li>
+            <li><a href="#">{t("footer.termsLink")}</a></li>
             <li><Link to="/auth">{t("nav.login")}</Link></li>
           </ul>
         </div>
         <div>
-          <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider">Contacto</h4>
+          <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider">{t("footer.contact")}</h4>
           <ul className="space-y-2 text-sm text-muted-foreground">
             <li>{tenant.phone}</li>
             <li>{tenant.address}</li>
@@ -37,7 +37,7 @@ export function TenantFooter({ tenant }: { tenant: Tenant }) {
         </div>
       </div>
       <div className="mx-auto mt-10 max-w-7xl border-t px-6 pt-6 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} {tenant.name}. Todos los derechos reservados.
+        © {new Date().getFullYear()} {tenant.name}. {t("footer.rights")}
       </div>
     </footer>
   );

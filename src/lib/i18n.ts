@@ -121,6 +121,35 @@ const resources = {
         theme: "Cambiar tema",
         lang: "Cambiar idioma",
       },
+      landing: {
+        eyebrow: "Villavicencio · Colombia",
+        titleA: "Momentos que",
+        titleAccent: "merecen",
+        titleB: "vivirse",
+        subtitle: "Tres refugios exclusivos entre montañas. Un solo lugar para elegir el tuyo.",
+      },
+      footer: {
+        explore: "Explora",
+        legal: "Legal",
+        contact: "Contacto",
+        privacy: "Política de privacidad",
+        termsLink: "Términos y condiciones",
+        rights: "Todos los derechos reservados.",
+      },
+      privacy: {
+        intro: "Antes de continuar, por favor revisa nuestra política.",
+        p1: "La presente Política de Privacidad establece los términos en que Motel Tantra usa y protege la información proporcionada por sus usuarios al utilizar el sitio. Estamos comprometidos con la seguridad de los datos.",
+        p2Label: "Información recogida:",
+        p2: "El sitio podrá recoger información personal como nombre, correo e información demográfica cuando sea necesario para procesar un pedido, entrega o facturación.",
+        p3Label: "Uso de la información:",
+        p3: "Empleamos la información para brindar el mejor servicio, mantener registro de usuarios y pedidos, y mejorar servicios. Podríamos enviar correos con ofertas relevantes; puede cancelarlos en cualquier momento.",
+        p4Label: "Cookies:",
+        p4: "Usamos cookies para análisis estadístico. Puede eliminarlas o rechazarlas desde su navegador.",
+        p5Label: "Enlaces a terceros:",
+        p5: "El sitio podría contener enlaces a otros sitios de los que no somos responsables.",
+        p6Label: "Control de su información:",
+        p6: "Puede restringir la recopilación o uso de su información. No vendemos ni distribuimos su información sin consentimiento, salvo requerimiento judicial.",
+      },
     },
   },
   en: {
@@ -241,18 +270,49 @@ const resources = {
         theme: "Toggle theme",
         lang: "Change language",
       },
+      landing: {
+        eyebrow: "Villavicencio · Colombia",
+        titleA: "Moments that",
+        titleAccent: "deserve",
+        titleB: "to be lived",
+        subtitle: "Three exclusive retreats among the mountains. One place to choose yours.",
+      },
+      footer: {
+        explore: "Explore",
+        legal: "Legal",
+        contact: "Contact",
+        privacy: "Privacy policy",
+        termsLink: "Terms and conditions",
+        rights: "All rights reserved.",
+      },
+      privacy: {
+        intro: "Before continuing, please review our policy.",
+        p1: "This Privacy Policy sets the terms on which Motel Tantra uses and protects information provided by its users. We are committed to keeping your data secure.",
+        p2Label: "Information collected:",
+        p2: "The site may collect personal information such as name, email and demographic data when required to process an order, delivery or invoice.",
+        p3Label: "Use of information:",
+        p3: "We use the information to provide the best possible service, keep records and improve. We may send emails with relevant offers; you can unsubscribe at any time.",
+        p4Label: "Cookies:",
+        p4: "We use cookies for statistical analysis. You can remove or reject them from your browser.",
+        p5Label: "Third-party links:",
+        p5: "The site may contain links to other sites we are not responsible for.",
+        p6Label: "Control of your information:",
+        p6: "You can restrict the collection or use of your information. We do not sell or share your information without your consent, except under judicial order.",
+      },
     },
   },
 };
 
 if (!i18n.isInitialized) {
   const isBrowser = typeof window !== "undefined";
+  const stored = isBrowser ? window.localStorage.getItem("i18nextLng") : null;
+  const initialLng = stored && ["es", "en"].includes(stored) ? stored : "es";
   const chain = isBrowser
     ? i18n.use(LanguageDetector).use(initReactI18next)
     : i18n.use(initReactI18next);
   chain.init({
     resources,
-    lng: "es",
+    lng: initialLng,
     fallbackLng: "es",
     supportedLngs: ["es", "en"],
     react: { useSuspense: false },
@@ -260,6 +320,7 @@ if (!i18n.isInitialized) {
     detection: {
       order: ["localStorage", "navigator"],
       caches: ["localStorage"],
+      lookupLocalStorage: "i18nextLng",
     },
   });
 }
