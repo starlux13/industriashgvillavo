@@ -46,7 +46,7 @@ export function TenantSelector() {
         </motion.p>
       </div>
 
-      <div className="mx-auto grid max-w-7xl gap-6 px-6 lg:grid-cols-3">
+      <div className="relative z-10 mx-auto grid max-w-7xl gap-6 px-6 lg:grid-cols-3">
         {TENANT_LIST.map((tenant, idx) => {
           const active = activeIdx === idx;
           return (
