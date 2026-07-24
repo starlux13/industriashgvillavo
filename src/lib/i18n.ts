@@ -315,7 +315,7 @@ if (!i18n.isInitialized) {
     supportedLngs: ["es", "en"],
     react: { useSuspense: false },
     interpolation: { escapeValue: false },
-    initImmediate: false,
+
   });
 }
 
