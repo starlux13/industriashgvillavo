@@ -57,8 +57,9 @@ export function FloatingActions({ whatsapp }: { whatsapp?: string }) {
         {currentLang === "es" ? "EN" : "ES"}
       </button>
       <button aria-label={t("floating.theme")} onClick={toggleTheme} className={btn}>
-        {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+        {mounted ? (theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />) : <Moon className="h-5 w-5" />}
       </button>
+
       {whatsapp && (
         <motion.a
           href={`https://wa.me/${whatsapp}`}
