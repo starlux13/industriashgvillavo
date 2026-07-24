@@ -8,9 +8,11 @@ export function FloatingActions({ whatsapp }: { whatsapp?: string }) {
   const { theme, setTheme } = useTheme();
   const { i18n, t } = useTranslation();
   const [showTop, setShowTop] = useState(false);
-  const currentLang = (i18n.language || "es").startsWith("en") ? "en" : "es";
+  const [mounted, setMounted] = useState(false);
+  const currentLang = (i18n?.language || "es").startsWith("en") ? "en" : "es";
 
   useEffect(() => {
+    setMounted(true);
     const onScroll = () => setShowTop(window.scrollY > 400);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -18,10 +20,13 @@ export function FloatingActions({ whatsapp }: { whatsapp?: string }) {
 
   const toggleLang = () => {
     const next = currentLang === "es" ? "en" : "es";
-    i18n.changeLanguage(next);
+    if (i18n && typeof i18n.changeLanguage === "function") {
+      i18n.changeLanguage(next);
+    }
     if (typeof window !== "undefined") window.localStorage.setItem("i18nextLng", next);
   };
   const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark");
+
 
   const btn =
     "grid h-12 w-12 place-items-center rounded-full glass shadow-[var(--shadow-soft)] transition-transform hover:scale-110";
