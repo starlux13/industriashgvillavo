@@ -22,9 +22,10 @@ export function TenantSelector() {
 
   return (
     <section className="relative isolate min-h-screen w-full overflow-hidden py-24">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,var(--background)_75%)]" />
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,transparent_0%,var(--background)_75%)]" />
 
-      <div className="mx-auto mb-14 max-w-3xl px-6 text-center">
+      <div className="relative z-10 mx-auto mb-14 max-w-3xl px-6 text-center">
+
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -45,7 +46,7 @@ export function TenantSelector() {
         </motion.p>
       </div>
 
-      <div className="mx-auto grid max-w-7xl gap-6 px-6 lg:grid-cols-3">
+      <div className="relative z-10 mx-auto grid max-w-7xl gap-6 px-6 lg:grid-cols-3">
         {TENANT_LIST.map((tenant, idx) => {
           const active = activeIdx === idx;
           return (
