@@ -75,7 +75,7 @@ export function LandingHero() {
             variant="outline"
             className="rounded-full border-white/30 bg-white/5 px-8 text-white backdrop-blur hover:bg-white/10"
           >
-            <Link to="/auth">{t("nav.login")}</Link>
+            <Link to="/auth" search={{ next: "" }}>{t("nav.login")}</Link>
           </Button>
         </motion.div>
       </motion.div>

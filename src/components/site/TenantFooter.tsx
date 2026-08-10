@@ -25,7 +25,7 @@ export function TenantFooter({ tenant }: { tenant: Tenant }) {
           <ul className="space-y-2 text-sm text-muted-foreground">
             <li><a href="#">{t("footer.privacy")}</a></li>
             <li><a href="#">{t("footer.termsLink")}</a></li>
-            <li><Link to="/auth">{t("nav.login")}</Link></li>
+            <li><Link to="/auth" search={{ next: "" }}>{t("nav.login")}</Link></li>
           </ul>
         </div>
         <div>

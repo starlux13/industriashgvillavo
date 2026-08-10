@@ -9,11 +9,12 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
 import { ThemeProvider } from "next-themes";
+import { I18nextProvider } from "react-i18next";
 import { Toaster } from "@/components/ui/sonner";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import "@/lib/i18n";
+import i18n from "@/lib/i18n";
 import { AuthProvider } from "@/hooks/useAuth";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import { PrivacyModal } from "@/components/PrivacyModal";
@@ -89,6 +90,10 @@ function RootComponent() {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
+    const storedLanguage = window.localStorage.getItem("i18nextLng");
+    if ((storedLanguage === "es" || storedLanguage === "en") && i18n.language !== storedLanguage) {
+      void i18n.changeLanguage(storedLanguage);
+    }
     if (typeof window !== "undefined" && sessionStorage.getItem("motels.loaded.v1")) {
       setLoaded(true);
     }
@@ -101,14 +106,16 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-        <AuthProvider>
-          {!loaded && <LoadingScreen onDone={handleDone} />}
-          <PrivacyModal />
-          <Outlet />
-          <Toaster richColors position="top-center" />
-        </AuthProvider>
-      </ThemeProvider>
+      <I18nextProvider i18n={i18n}>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+          <AuthProvider>
+            {!loaded && <LoadingScreen onDone={handleDone} />}
+            <PrivacyModal />
+            <Outlet />
+            <Toaster richColors position="top-center" />
+          </AuthProvider>
+        </ThemeProvider>
+      </I18nextProvider>
     </QueryClientProvider>
   );
 }
