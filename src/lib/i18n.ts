@@ -1,6 +1,5 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import LanguageDetector from "i18next-browser-languagedetector";
 
 const resources = {
   es: {
@@ -303,24 +302,17 @@ const resources = {
   },
 };
 
-const isBrowser = typeof window !== "undefined";
-const stored = isBrowser ? window.localStorage.getItem("i18nextLng") : null;
-const initialLng = stored === "en" || stored === "es" ? stored : "es";
-
 if (!i18n.isInitialized) {
   i18n.use(initReactI18next).init({
     resources,
-    lng: initialLng,
+    lng: "es",
     fallbackLng: "es",
     supportedLngs: ["es", "en"],
+    initImmediate: false,
     react: { useSuspense: false },
     interpolation: { escapeValue: false },
-
   });
 }
-
-// Reserved for future locale detection; keeps import side-effect-safe.
-void LanguageDetector;
 
 export default i18n;
 
