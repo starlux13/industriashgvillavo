@@ -39,7 +39,7 @@ function Dashboard() {
   const [tab, setTab] = useState<string>("all");
 
   useEffect(() => {
-    if (!loading && !user) navigate({ to: "/auth" });
+    if (!loading && !user) navigate({ to: "/auth", search: { next: "" } });
   }, [user, loading, navigate]);
 
   useEffect(() => {
