@@ -70,12 +70,26 @@ function Auth() {
   };
 
   const handleGoogle = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: { redirectTo: `${window.location.origin}${dest}` },
-    });
-    if (error) toast.error(error.message);
+    setLoading(true);
+    try {
+      if (dest && dest !== "/") sessionStorage.setItem("post_auth_dest", dest);
+      const result = await lovable.auth.signInWithOAuth("google", {
+        redirect_uri: window.location.origin,
+      });
+      if ("error" in result && result.error) {
+        toast.error(result.error.message ?? "No se pudo iniciar con Google");
+        return;
+      }
+      if ("redirected" in result && result.redirected) return;
+      const { data } = await supabase.auth.getSession();
+      if (data.session) navigate({ to: dest });
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Error con Google");
+    } finally {
+      setLoading(false);
+    }
   };
+
 
   return (
     <div className="relative min-h-screen bg-background">
