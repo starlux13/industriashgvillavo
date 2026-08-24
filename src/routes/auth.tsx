@@ -74,23 +74,32 @@ function Auth() {
   const handleGoogle = async () => {
     setLoading(true);
     try {
-      if (dest && dest !== "/") sessionStorage.setItem("post_auth_dest", dest);
+      try {
+        sessionStorage.setItem("post_auth_dest", dest);
+      } catch { /* storage bloqueado */ }
       const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: window.location.origin,
+        redirect_uri: `${window.location.origin}/auth/callback`,
       });
       if ("error" in result && result.error) {
         toast.error(result.error.message ?? "No se pudo iniciar con Google");
         return;
       }
       if ("redirected" in result && result.redirected) return;
+      // Popup flow: la sesión ya quedó establecida por el helper.
       const { data } = await supabase.auth.getSession();
-      if (data.session) navigate({ to: dest });
+      if (data.session) {
+        toast.success("¡Bienvenido!");
+        navigate({ to: dest });
+      } else {
+        toast.error("No se completó el inicio con Google");
+      }
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Error con Google");
     } finally {
       setLoading(false);
     }
   };
+
 
 
   return (
